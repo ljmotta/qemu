@@ -432,9 +432,12 @@ static void riscv_sifive_u_soc_init(Object *obj)
 
     sysbus_init_child_obj(obj, "prci", &s->prci, sizeof(s->prci),
                           TYPE_SIFIVE_U_PRCI);
-    sysbus_init_child_obj(obj, "otp", &s->otp, sizeof(s->otp),
-                          TYPE_SIFIVE_U_OTP);
+
+    // OTP manipulation
+    sysbus_init_child_obj(obj, "otp", &s->otp, sizeof(s->otp), TYPE_SIFIVE_U_OTP);
     qdev_prop_set_uint32(DEVICE(&s->otp), "serial", OTP_SERIAL);
+
+
     sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
                           TYPE_CADENCE_GEM);
 }
@@ -554,6 +557,8 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
     object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
     sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
 
+
+    // OTP manipulation
     object_property_set_bool(OBJECT(&s->otp), true, "realized", &err);
     sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
 

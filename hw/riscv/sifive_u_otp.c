@@ -73,8 +73,7 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
     return 0;
 }
 
-static void sifive_u_otp_write(void *opaque, hwaddr addr,
-                               uint64_t val64, unsigned int size)
+static void sifive_u_otp_write(void *opaque, hwaddr addr, uint64_t val64, unsigned int size)
 {
     SiFiveUOTPState *s = opaque;
     uint32_t val32 = (uint32_t)val64;
@@ -150,8 +149,7 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
 {
     SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
 
-    memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
-                          TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+    memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s, TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
 }
 
@@ -160,7 +158,7 @@ static void sifive_u_otp_reset(DeviceState *dev)
     SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
 
     /* Initialize all fuses' initial value to 0xFFs */
-    memset(s->fuse, 0xff, sizeof(s->fuse));
+    // memset(s->fuse, 0x00, sizeof(s->fuse));
 
     /* Make a valid content of serial number */
     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
